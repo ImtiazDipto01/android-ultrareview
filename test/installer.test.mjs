@@ -32,6 +32,13 @@ test("requires an explicit agent", async () => {
   assert.match(result.stderr, /--agent is required/);
 });
 
+test("tolerates an npm-style argument separator", async () => {
+  const home = await temporaryHome();
+  const result = run(["--", "--agent", "codex"], home);
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(await isFile(join(home, ".agents", "skills", "android-ultrareview", "SKILL.md")), true);
+});
+
 test("installs Codex globally in the Agent Skills standard directory", async () => {
   const home = await temporaryHome();
   const result = run(["--agent", "codex"], home);

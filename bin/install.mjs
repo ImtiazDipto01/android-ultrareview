@@ -23,7 +23,7 @@ function printHelp() {
   console.log(`Android UltraReview installer
 
 Usage:
-  npx github:ImtiazDipto01/android-ultrareview -- --agent <agent> [options]
+  npx github:ImtiazDipto01/android-ultrareview --agent <agent> [options]
 
 Required:
   --agent <codex|claude|cursor|all>
@@ -36,10 +36,10 @@ Options:
   -h, --help              Show this help
 
 Examples:
-  npx github:ImtiazDipto01/android-ultrareview -- --agent codex
-  npx github:ImtiazDipto01/android-ultrareview -- --agent claude --scope project
-  npx github:ImtiazDipto01/android-ultrareview -- --agent cursor --scope project --project ./my-app
-  npx github:ImtiazDipto01/android-ultrareview -- --agent all --force
+  npx github:ImtiazDipto01/android-ultrareview --agent codex
+  npx github:ImtiazDipto01/android-ultrareview --agent claude --scope project
+  npx github:ImtiazDipto01/android-ultrareview --agent cursor --scope project --project ./my-app
+  npx github:ImtiazDipto01/android-ultrareview --agent all --force
 `);
 }
 
@@ -62,6 +62,9 @@ function parseArgs(argv) {
     const argument = argv[index];
     if (argument === "-h" || argument === "--help") {
       options.help = true;
+    } else if (argument === "--") {
+      // Tolerate an npm-style separator even though npx does not require it here.
+      continue;
     } else if (argument === "--force") {
       options.force = true;
     } else if (argument === "--dry-run") {

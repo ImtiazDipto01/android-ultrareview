@@ -37,7 +37,7 @@ Requirements: Node.js 18 or newer, Git, and at least one supported coding agent.
 ### Codex
 
 ```bash
-npx --yes github:ImtiazDipto01/android-ultrareview -- --agent codex
+npx --yes github:ImtiazDipto01/android-ultrareview --agent codex
 ```
 
 Installs to `~/.agents/skills/android-ultrareview`.
@@ -45,7 +45,7 @@ Installs to `~/.agents/skills/android-ultrareview`.
 ### Claude Code
 
 ```bash
-npx --yes github:ImtiazDipto01/android-ultrareview -- --agent claude
+npx --yes github:ImtiazDipto01/android-ultrareview --agent claude
 ```
 
 Installs to `~/.claude/skills/android-ultrareview`.
@@ -53,7 +53,7 @@ Installs to `~/.claude/skills/android-ultrareview`.
 ### Cursor
 
 ```bash
-npx --yes github:ImtiazDipto01/android-ultrareview -- --agent cursor
+npx --yes github:ImtiazDipto01/android-ultrareview --agent cursor
 ```
 
 Installs to `~/.cursor/skills/android-ultrareview` so it can also be synced for Cursor Cloud Agents when that feature is enabled.
@@ -61,7 +61,7 @@ Installs to `~/.cursor/skills/android-ultrareview` so it can also be synced for 
 ### All three
 
 ```bash
-npx --yes github:ImtiazDipto01/android-ultrareview -- --agent all
+npx --yes github:ImtiazDipto01/android-ultrareview --agent all
 ```
 
 This installs one shared Agent Skills copy for Codex and Cursor, plus one Claude Code copy. It intentionally avoids registering duplicate copies in Cursor.
@@ -73,13 +73,13 @@ This installs one shared Agent Skills copy for Codex and Cursor, plus one Claude
 Run this from the repository root:
 
 ```bash
-npx --yes github:ImtiazDipto01/android-ultrareview -- --agent codex --scope project
+npx --yes github:ImtiazDipto01/android-ultrareview --agent codex --scope project
 ```
 
 Or name the repository explicitly:
 
 ```bash
-npx --yes github:ImtiazDipto01/android-ultrareview -- \
+npx --yes github:ImtiazDipto01/android-ultrareview \
   --agent cursor \
   --scope project \
   --project /path/to/android-project
@@ -91,10 +91,10 @@ Project installs use the agent's official project directory, such as `.agents/sk
 
 ```bash
 # See the destination without writing anything
-npx --yes github:ImtiazDipto01/android-ultrareview -- --agent all --dry-run
+npx --yes github:ImtiazDipto01/android-ultrareview --agent all --dry-run
 
 # Replace an existing installation
-npx --yes github:ImtiazDipto01/android-ultrareview -- --agent all --force
+npx --yes github:ImtiazDipto01/android-ultrareview --agent all --force
 ```
 
 The installer refuses to overwrite by default. `--force` preserves the previous directory beside the new installation as a timestamped backup.
