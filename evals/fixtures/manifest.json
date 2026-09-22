@@ -1,0 +1,36 @@
+{
+  "format_version": 1,
+  "commit_identity": {
+    "name": "Android UltraReview Benchmark",
+    "email": "benchmark@example.invalid",
+    "base_date": "2025-01-01T00:00:00Z",
+    "defective_date": "2025-01-01T00:01:00Z",
+    "repaired_date": "2025-01-01T00:02:00Z"
+  },
+  "fixtures": {
+    "profile-setup": {
+      "fixture_main_class": "fixture.profile.FixtureCheck",
+      "expected_shas": {
+        "base": "4a1359633c723bd539a81664038da19c9783c4c7",
+        "defective": "876b6408dab4eb3b4b320b397ac1ba6d3d8ebe6f",
+        "repaired": "6091d4e63da969bd34cc7b26e582443c05e13dbe"
+      }
+    },
+    "order-upload": {
+      "fixture_main_class": "fixture.orders.FixtureCheck",
+      "expected_shas": {
+        "base": "8e2f382cf95ca5a4f4e9fe899c4c006bf1ad66f8",
+        "defective": "92efc1ba93b352870851adedac9a362197b6f683",
+        "repaired": "1612198ac6fbf54721b499fcbff1a64523d4a5e2"
+      }
+    },
+    "account-deeplink": {
+      "fixture_main_class": "fixture.links.FixtureCheck",
+      "expected_shas": {
+        "base": "a7f5c33bb149bbb01033230b40d35b2313f80c37",
+        "defective": "4f86f0725efc9c204f9f8843d9b2553776851962",
+        "repaired": "73b1cbf136f6a057bb15c2ccdb7e3bea2d20573d"
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "name": "android-ultrareview",
+  "version": "0.1.0",
+  "description": "Evidence-based Android pull request review skill for Codex, Claude Code, and Cursor.",
+  "type": "module",
+  "bin": {
+    "android-ultrareview": "bin/install.mjs"
+  },
+  "files": [
+    "agents/",
+    "bin/",
+    "evals/",
+    "references/",
+    "scripts/",
+    "SKILL.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "test:installer": "node --test test/installer.test.mjs",
+    "bench:materialize": "python3 scripts/materialize_benchmarks.py --output .tmp/benchmarks",
+    "pack:check": "npm pack --dry-run --cache .tmp/npm-cache"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "agent-skills",
+    "android",
+    "claude-code",
+    "code-review",
+    "codex",
+    "cursor",
+    "pull-request"
+  ],
+  "author": "Imtiaz Uddin Ahmed",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ImtiazDipto01/android-ultrareview.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ImtiazDipto01/android-ultrareview/issues"
+  },
+  "homepage": "https://github.com/ImtiazDipto01/android-ultrareview#readme",
+  "preferGlobal": false
+}

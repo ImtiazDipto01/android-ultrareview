@@ -1,0 +1,8 @@
+.github/
+.tmp/
+test/
+CONTRIBUTING.md
+SECURITY.md
+CODE_OF_CONDUCT.md
+CHANGELOG.md
+package-lock.json
