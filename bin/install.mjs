@@ -9,7 +9,7 @@ const SKILL_NAME = "android-ultrareview";
 const PACKAGE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const SKILL_ENTRIES = [
   "SKILL.md",
-  "README.md",
+  "LICENSE",
   "agents",
   "evals",
   "references",
@@ -23,7 +23,7 @@ function printHelp() {
   console.log(`Android UltraReview installer
 
 Usage:
-  npx github:ImtiazDipto01/android-ultrareview --agent <agent> [options]
+  npx github:ImtiazDipto01/android-ultrareview#v1.0.0 --agent <agent> [options]
 
 Required:
   --agent <codex|claude|cursor|all>
@@ -36,10 +36,10 @@ Options:
   -h, --help              Show this help
 
 Examples:
-  npx github:ImtiazDipto01/android-ultrareview --agent codex
-  npx github:ImtiazDipto01/android-ultrareview --agent claude --scope project
-  npx github:ImtiazDipto01/android-ultrareview --agent cursor --scope project --project ./my-app
-  npx github:ImtiazDipto01/android-ultrareview --agent all --force
+  npx github:ImtiazDipto01/android-ultrareview#v1.0.0 --agent codex
+  npx github:ImtiazDipto01/android-ultrareview#v1.0.0 --agent claude --scope project
+  npx github:ImtiazDipto01/android-ultrareview#v1.0.0 --agent cursor --scope project --project ./my-app
+  npx github:ImtiazDipto01/android-ultrareview#v1.0.0 --agent all --force
 `);
 }
 
@@ -176,6 +176,16 @@ async function copySkill(destination, { force, dryRun }) {
   if (destinationExists) console.log(`Previous installation preserved -> ${backup}`);
 }
 
+async function preflightDestinations(destinations, { force }) {
+  for (const destination of destinations) {
+    if ((await exists(destination)) && !force) {
+      throw new Error(
+        `installation already exists at ${destination}; rerun with --force to replace it and keep a backup`,
+      );
+    }
+  }
+}
+
 async function main() {
   let options;
   try {
@@ -209,9 +219,9 @@ async function main() {
     if (options.scope === "project") await assertDirectory(resolve(options.project), "project root");
 
     const roots = rootsFor(options.agent, options.scope, options.project);
-    for (const root of roots) {
-      await copySkill(join(root, SKILL_NAME), options);
-    }
+    const destinations = roots.map((root) => join(root, SKILL_NAME));
+    await preflightDestinations(destinations, options);
+    for (const destination of destinations) await copySkill(destination, options);
 
     if (!options.dryRun) {
       console.log("Restart the agent if the skill does not appear immediately.");

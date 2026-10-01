@@ -9,12 +9,23 @@ public final class FixtureCheck {
         if (args.length > 0 && "excellence".equals(args[0])) excellence();
     }
 
-    private static void baseline() {
-        ProfileSetupController failed = new ProfileSetupController(city -> { throw new Exception("offline"); });
-        try { failed.submit("Dhaka"); } catch (Exception expected) { }
-        require(!failed.complete && !failed.navigated, "failed save must not complete");
-        failed.onLocationDenied();
-        require(!failed.locating, "denial must restore manual entry");
+    private static void baseline() throws Exception {
+        AtomicInteger attempts = new AtomicInteger();
+        AtomicReference<ProfileSetupController> ref = new AtomicReference<>();
+        ProfileSetupController controller = new ProfileSetupController(city -> {
+            require(!ref.get().complete && !ref.get().navigated, "save must finish before completion");
+            if (attempts.incrementAndGet() == 1) throw new Exception("offline");
+        });
+        ref.set(controller);
+
+        try { controller.submit("Dhaka"); } catch (Exception expected) { }
+        require(!controller.complete && !controller.navigated, "failed save must not complete");
+        controller.onLocationDenied();
+        require(!controller.locating, "denial must restore manual entry");
+
+        controller.submit("Dhaka");
+        require(attempts.get() == 2, "failed save must remain retryable");
+        require(controller.complete && controller.navigated, "successful retry must complete and navigate");
     }
 
     private static void excellence() throws Exception {
@@ -26,7 +37,8 @@ public final class FixtureCheck {
         });
         ref.set(controller);
         controller.submit("Dhaka");
-        require(saves.get() == 1 && controller.complete, "repeated submit must commit once");
+        require(saves.get() == 1, "repeated submit must persist once");
+        require(controller.complete && controller.navigated, "outer submit must complete and navigate once");
     }
 
     private static void require(boolean value, String message) {

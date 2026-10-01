@@ -21,6 +21,8 @@ For each prior finding or path item, use one public resolution:
 
 Map these to path statuses: `Fixed` → `Done`, `Still open` → `Open`, `No longer applies` → `N/A`, and `Withdrawn` → `Withdrawn`. Never renumber or reuse a `B` or `E` ID.
 
+When only a separable clause of a path condition exceeded the retained finding or controlling authority, keep the stable ID and supported core outcome, explicitly identify the clause as withdrawn, and record the corrected condition as a reviewer rubric correction. This is not silent path weakening: it is the required removal of a false blocker. Do not withdraw supported behavior merely because one appended scenario was over-broad.
+
 When inspection shows code is repaired but verification is missing, the remaining issue is evidence, not an unresolved code defect. Keep the relevant path item open with the exact evidence needed and apply the evidence cap.
 
 ## Adjudicate author replies

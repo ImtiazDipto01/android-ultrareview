@@ -1,0 +1,14 @@
+Exact target: e3d9feb58ce52fd49cc14e2ad7db42561c07bd0e
+Repository state before and after: clean detached checkout
+Runtime: OpenJDK Runtime Environment JBR-17.0.14+1-1367.22-nomod
+
+Compile command:
+<jdk17>/bin/javac -d work/v1-calibration-v4/focused-checks/account/classes work/v1-calibration-v4/source-fixtures/account-deeplink/app/src/main/java/fixture/links/AccountDeepLinkRouter.java work/v1-calibration-v4/focused-checks/account/fixture/links/AccountIdentifierBoundaryCheck.java
+Compile exit: 0
+
+Run command:
+<jdk17>/bin/java -cp work/v1-calibration-v4/focused-checks/account/classes fixture.links.AccountIdentifierBoundaryCheck
+PASS: empty/blank cold and warm identifiers were rejected before authorization/opening
+Run exit: 0
+
+The checker source was external to the target repository and compiled the exact tracked AccountDeepLinkRouter.java from the stated commit. It asserted that both public handlers reject empty and whitespace-only identifiers before authorization and before account opening.

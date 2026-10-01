@@ -7,6 +7,7 @@
 Understand the feature. Respect the repository. Review the exact target. Give developers a finite path to merge.
 
 [![CI](https://github.com/ImtiazDipto01/android-ultrareview/actions/workflows/ci.yml/badge.svg)](https://github.com/ImtiazDipto01/android-ultrareview/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/ImtiazDipto01/android-ultrareview?display_name=tag&sort=semver)](https://github.com/ImtiazDipto01/android-ultrareview/releases/latest)
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-compatible-6f42c1)](https://agentskills.io)
 [![Android](https://img.shields.io/badge/Android-PR%20review-3DDC84?logo=android&logoColor=white)](https://developer.android.com/)
@@ -32,12 +33,12 @@ It is strict about demonstrated defects and honest evidence. It is deliberately 
 
 ## Install in 60 seconds
 
-Requirements: Node.js 18 or newer, Git, and at least one supported coding agent.
+Requirements: Node.js 22 or newer, Git, and at least one supported coding agent.
 
 ### Codex
 
 ```bash
-npx --yes github:ImtiazDipto01/android-ultrareview --agent codex
+npx --yes github:ImtiazDipto01/android-ultrareview#v1.0.0 --agent codex
 ```
 
 Installs to `~/.agents/skills/android-ultrareview`.
@@ -45,7 +46,7 @@ Installs to `~/.agents/skills/android-ultrareview`.
 ### Claude Code
 
 ```bash
-npx --yes github:ImtiazDipto01/android-ultrareview --agent claude
+npx --yes github:ImtiazDipto01/android-ultrareview#v1.0.0 --agent claude
 ```
 
 Installs to `~/.claude/skills/android-ultrareview`.
@@ -53,7 +54,7 @@ Installs to `~/.claude/skills/android-ultrareview`.
 ### Cursor
 
 ```bash
-npx --yes github:ImtiazDipto01/android-ultrareview --agent cursor
+npx --yes github:ImtiazDipto01/android-ultrareview#v1.0.0 --agent cursor
 ```
 
 Installs to `~/.cursor/skills/android-ultrareview` so it can also be synced for Cursor Cloud Agents when that feature is enabled.
@@ -61,25 +62,25 @@ Installs to `~/.cursor/skills/android-ultrareview` so it can also be synced for 
 ### All three
 
 ```bash
-npx --yes github:ImtiazDipto01/android-ultrareview --agent all
+npx --yes github:ImtiazDipto01/android-ultrareview#v1.0.0 --agent all
 ```
 
-This installs one shared Agent Skills copy for Codex and Cursor, plus one Claude Code copy. It intentionally avoids registering duplicate copies in Cursor.
+This installs one shared local Agent Skills copy for Codex and Cursor, plus one Claude Code copy. It intentionally avoids registering duplicate copies in Cursor. Cursor Cloud sync copies only `~/.cursor/skills`; use the individual Cursor command when that sync matters.
 
-> `npx` executes the installer from this GitHub repository. Review [`bin/install.mjs`](bin/install.mjs) first if your environment requires source approval. The installer has no runtime dependencies and does not modify shell configuration.
+> These commands pin the stable `v1.0.0` tag. `npx` executes the installer from this GitHub repository; review [`bin/install.mjs`](bin/install.mjs) first if your environment requires source approval. The installer has no runtime dependencies and does not modify shell configuration.
 
 ### Install for one repository
 
 Run this from the repository root:
 
 ```bash
-npx --yes github:ImtiazDipto01/android-ultrareview --agent codex --scope project
+npx --yes github:ImtiazDipto01/android-ultrareview#v1.0.0 --agent codex --scope project
 ```
 
 Or name the repository explicitly:
 
 ```bash
-npx --yes github:ImtiazDipto01/android-ultrareview \
+npx --yes github:ImtiazDipto01/android-ultrareview#v1.0.0 \
   --agent cursor \
   --scope project \
   --project /path/to/android-project
@@ -91,10 +92,10 @@ Project installs use the agent's official project directory, such as `.agents/sk
 
 ```bash
 # See the destination without writing anything
-npx --yes github:ImtiazDipto01/android-ultrareview --agent all --dry-run
+npx --yes github:ImtiazDipto01/android-ultrareview#v1.0.0 --agent all --dry-run
 
 # Replace an existing installation
-npx --yes github:ImtiazDipto01/android-ultrareview --agent all --force
+npx --yes github:ImtiazDipto01/android-ultrareview#v1.0.0 --agent all --force
 ```
 
 The installer refuses to overwrite by default. `--force` preserves the previous directory beside the new installation as a timestamped backup.
@@ -107,6 +108,16 @@ The installer refuses to overwrite by default. `--force` preserves the previous 
 | `--dry-run` | Print destinations without writing files. |
 | `--force` | Replace an existing copy and retain a backup. |
 | `--help` | Show CLI help. |
+
+### Host compatibility
+
+| Host | User install | Project install | Invoke |
+|---|---|---|---|
+| Codex | `~/.agents/skills/android-ultrareview` | `.agents/skills/android-ultrareview` | `$android-ultrareview` |
+| Claude Code | `~/.claude/skills/android-ultrareview` | `.claude/skills/android-ultrareview` | `/android-ultrareview` |
+| Cursor | `~/.cursor/skills/android-ultrareview` | `.cursor/skills/android-ultrareview` | `/android-ultrareview` |
+
+The locations follow the current [Codex skill discovery](https://developers.openai.com/codex/skills), [Claude Code skill](https://docs.claude.com/en/docs/claude-code/skills), and [Cursor Agent Skills](https://cursor.com/docs/skills) documentation. Other hosts can use the repository as a standard `SKILL.md` bundle.
 
 ## Run your first review
 
@@ -137,6 +148,8 @@ Re-review PR #123. Verify the previous B and E items against the new head and ke
 ```
 
 A plain “review” request produces a draft. If you want comments submitted to GitHub, say so explicitly. Approval or request-changes decisions require separate authorization and must be allowed for the authenticated account.
+
+Draft and snapshot review are provider-neutral. The bundled live-submission procedure is GitHub-specific; another provider needs an equivalent authorized integration.
 
 ## The review in eight phases
 
@@ -211,9 +224,14 @@ android-ultrareview/
 
 ## Evaluation status
 
-The repository contains three deterministic Git benchmark fixtures across defective, repaired-without-evidence, baseline-evidence, and excellence-evidence states. The materializer verifies nine pinned commits, and repaired Java contracts compile and pass in the recorded harness checks.
+The v1.0.0 calibration is complete. Two isolated Codex CLI reviewers evaluated three deterministic Android fixtures through defective, repaired-without-evidence, merge-readiness-evidence, and optional-excellence phases. Independent adjudicators resolved every score or pass-condition disagreement.
 
-No post-update blind reviewer run is claimed yet. [`evals/benchmark-results.md`](evals/benchmark-results.md) deliberately marks those behavioral runs as pending. Harness integrity is not presented as proof that an agent will always award `4.5` or `5.0` correctly.
+- Both reviewers produced validation-limited `4.0` results after static repair with no execution evidence.
+- The run produced two independently reviewed `4.5` outcomes with finite optional paths.
+- After exact-target excellence evidence, both reviewers converged to `5.0` for all three fixtures.
+- Real Android debug builds and focused checks passed at every repaired SHA used for scoring.
+
+The full reports, adjudications, raw logs, checker sources, checksums, model settings, and limitations are published in [`evals/results/v1.0.0/`](evals/results/v1.0.0/). These synthetic results demonstrate the contract's behavior; they do not promise identical scores for every real-world PR.
 
 ## Develop locally
 

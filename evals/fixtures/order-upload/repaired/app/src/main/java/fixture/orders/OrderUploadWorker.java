@@ -1,5 +1,7 @@
 package fixture.orders;
 
+import java.util.concurrent.CancellationException;
+
 final class OrderUploadWorker {
     interface Gateway {
         void upload(String orderId, String idempotencyKey) throws Exception;
@@ -28,6 +30,8 @@ final class OrderUploadWorker {
             return Result.SUCCESS;
         } catch (InterruptedException cancelled) {
             Thread.currentThread().interrupt();
+            return Result.CANCELLED;
+        } catch (CancellationException cancelled) {
             return Result.CANCELLED;
         } catch (Exception failure) {
             return Result.RETRY;

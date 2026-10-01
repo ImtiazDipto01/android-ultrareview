@@ -27,7 +27,11 @@ test("SKILL.md has portable required frontmatter", async () => {
 
 test("package metadata points to the executable installer", async () => {
   const packageJson = JSON.parse(await readFile(join(ROOT, "package.json"), "utf8"));
+  const packageLock = JSON.parse(await readFile(join(ROOT, "package-lock.json"), "utf8"));
   assert.equal(packageJson.type, "module");
+  assert.equal(packageJson.version, packageLock.version);
+  assert.equal(packageJson.version, packageLock.packages[""].version);
+  assert.equal(packageJson.engines.node, packageLock.packages[""].engines.node);
   assert.equal(packageJson.bin["android-ultrareview"], "bin/install.mjs");
   assert.match(await readFile(join(ROOT, "bin", "install.mjs"), "utf8"), /^#!\/usr\/bin\/env node/);
 });

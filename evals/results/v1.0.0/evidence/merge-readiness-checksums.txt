@@ -1,0 +1,17 @@
+Gradle 9.5.0 distribution:
+553c78f50dafcd54d65b9a444649057857469edf836431389695608536d6b746  gradle-9.5.0-bin.zip
+
+Retained merge-readiness evidence:
+3629dd5b3afc4357643aae62de283c512cac5cc1150bb2665828e655f4ea1454  logs/profile-setup-baseline.raw.log
+33ba1c149821aa9d71f01fbcbcdaa585fcfb5f3bc36dafa3cb4357b03893e411  logs/profile-setup-excellence.raw.log
+9ab51edddc193a403c29404dae0805058a17220241f6a4ea224fa7115f70e0c5  logs/order-upload-baseline-v2.raw.log
+33ba1c149821aa9d71f01fbcbcdaa585fcfb5f3bc36dafa3cb4357b03893e411  logs/order-upload-excellence-v2.raw.log
+7d474e6381fac26eb984c00e0df719c2af72965dd0bf6a8698527f4f639d0048  logs/account-deeplink-baseline.raw.log
+33ba1c149821aa9d71f01fbcbcdaa585fcfb5f3bc36dafa3cb4357b03893e411  logs/account-deeplink-excellence.raw.log
+c7f209d3cdbab1bf1cfbad7596f8cf3bd82d59d01df5c3f9b14b4ed64b64c101  logs/account-deeplink-empty-blank-focused.raw.log
+e8d26abc275a7aaa1c81b2023e2bb34b9aab51d08bc8745547e270861863fbaf  checkers/account/AccountIdentifierBoundaryCheck.java
+
+Assembled debug APKs (hashes only; APKs are not published):
+0ffe170261eaac991608ffd86d4401f318d102b217f151f17ad95d2e446c0b43  account-deeplink/app-debug.apk
+2ffdb1f0c2d5216a35cccc4db5eabbb9d1681b074f73d5065d76b2275e6c5bc7  order-upload/app-debug.apk
+7235961f714d4b96f951c33ab24413a9188c10c8743a3436e699c569fd3d991d  profile-setup/app-debug.apk

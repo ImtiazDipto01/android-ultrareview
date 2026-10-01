@@ -1,0 +1,14 @@
+Exact target: 3ec59ede43c81b313208100d52872340692f4b39
+Repository state before and after: clean detached checkout
+Runtime: OpenJDK Runtime Environment JBR-17.0.14+1-1367.22-nomod
+
+Compile command:
+<jdk17>/bin/javac -d work/v1-calibration-v4/focused-checks/profile/classes work/v1-calibration-v4/source-fixtures/profile-setup/app/src/main/java/fixture/profile/ProfileSetupController.java work/v1-calibration-v4/focused-checks/profile/fixture/profile/ProfileRepositoryBoundaryCheck.java
+Compile exit: 0
+
+Run command:
+<jdk17>/bin/java -cp work/v1-calibration-v4/focused-checks/profile/classes fixture.profile.ProfileRepositoryBoundaryCheck
+PASS: Repository.save received the exact submitted city once
+Run exit: 0
+
+The checker source was external to the target repository and compiled the exact tracked ProfileSetupController.java from the stated commit. It captured Repository.save arguments and asserted that the exact city supplied to submit was received unchanged once.

@@ -16,7 +16,9 @@ The repaired fixtures expose `:app:fixtureBaselineCheck` and `:app:fixtureExcell
 
 ## Blind review protocol
 
-Use the same reviewer model/settings for every run. Give it only the skill, one materialized repository, the request text, and the exact state/evidence currently under review—never this guide, `scenarios.md`, the expected scores, or a suspected defect.
+Use the same explicitly named reviewer model and reasoning setting for every run. When the host does not expose an internal build identifier, record that limitation rather than inventing one. Give the reviewer only the skill, one materialized repository, the request text, and the exact state/evidence currently under review—never this guide, `scenarios.md`, expected scores, prior results, conversation history, or a suspected defect.
+
+Prefer a physically separate evaluator bundle containing `SKILL.md` and its required policy references but excluding this guide, `scenarios.md`, `benchmark-results.md`, prior reviewer output, and the optional worked example. Record a deterministic content-manifest digest and enumerate the files the reviewer actually loaded. A prompt-only prohibition is a weaker fallback and must be disclosed as such.
 
 For each fixture:
 
@@ -25,7 +27,7 @@ For each fixture:
 3. Re-review the same repaired SHA after supplying genuine baseline build/test evidence tied to that SHA.
 4. Re-review the same repaired SHA after supplying the previously locked optional evidence.
 
-Run two blind reviewers per state and a third only when the first two disagree. Do not label an integrity-only materializer run as Android build evidence or a model result. A real 4.5/5 or 5.0/5 benchmark result requires the reviewer output plus the genuine evidence it evaluated.
+Run two blind reviewers per state and a third only when the first two disagree on an exact score, decision, admitted finding/root-cause grouping, threshold-path state, or false blocker. Do not label an integrity-only materializer run as Android build evidence or a model result. A real 4.5/5 or 5.0/5 benchmark result requires the reviewer output plus the genuine evidence it evaluated. Retain the exact command output or linked test report behind an evidence summary; a bare summary is not a self-contained benchmark record.
 
 ## Recording results
 

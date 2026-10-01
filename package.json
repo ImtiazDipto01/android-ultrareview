@@ -1,6 +1,6 @@
 {
   "name": "android-ultrareview",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Evidence-based Android pull request review skill for Codex, Claude Code, and Cursor.",
   "type": "module",
   "bin": {
@@ -19,11 +19,12 @@
   "scripts": {
     "test": "node --test test/*.test.mjs",
     "test:installer": "node --test test/installer.test.mjs",
+    "test:artifact": "node --test test/packed-install.test.mjs",
     "bench:materialize": "python3 scripts/materialize_benchmarks.py --output .tmp/benchmarks",
     "pack:check": "npm pack --dry-run --cache .tmp/npm-cache"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "keywords": [
     "agent-skills",

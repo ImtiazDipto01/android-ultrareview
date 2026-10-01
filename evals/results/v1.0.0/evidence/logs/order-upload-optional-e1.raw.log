@@ -1,0 +1,14 @@
+Exact target: 7ddac75b89545a0fd8fb6b6332c8724cfda080ce
+Repository state before and after: clean detached checkout
+Runtime: OpenJDK Runtime Environment JBR-17.0.14+1-1367.22-nomod
+
+Compile command:
+<jdk17>/bin/javac -d work/v1-calibration-v4/focused-checks/order/classes work/v1-calibration-v4/source-fixtures/order-upload/app/src/main/java/fixture/orders/OrderUploadWorker.java work/v1-calibration-v4/focused-checks/order/fixture/orders/OrderGatewayBoundaryCheck.java
+Compile exit: 0
+
+Run command:
+<jdk17>/bin/java -cp work/v1-calibration-v4/focused-checks/order/classes fixture.orders.OrderGatewayBoundaryCheck
+PASS: initial and recreated retry received the exact requested order identifier
+Run exit: 0
+
+The checker source was external to the target repository and compiled the exact tracked OrderUploadWorker.java from the stated commit. It captured Gateway.upload order identifiers across a transient failure and recreated-worker retry and asserted that both equal the requested identifier unchanged.

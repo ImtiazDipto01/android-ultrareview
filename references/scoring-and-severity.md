@@ -63,6 +63,8 @@ Use only these statuses:
 
 Put the matching ID in an inline title, such as `[P1][B1]`. Missing scope and validation-only items remain summary-only. A defect item's pass condition should include focused regression evidence where the repository can reasonably provide it; do not create a duplicate validation item for the same behavior. Whole-target build/test provenance remains an independent item.
 
+Keep every required outcome and pass condition no broader than the retained defect and controlling authority. Do not append a plausible but unrepresented lifecycle transition, failure category, device/API matrix, framework change, or architecture preference merely because it could matter in a larger system. A proposed condition without a concrete trigger and observable outcome representable in the reviewed scope is a question, evidence limit, or non-blocking note—not a `B` item. If re-review exposes that an earlier condition exceeded its authority, name the rubric error and withdraw the unsupported portion under the correction rules in [rereview.md](rereview.md); path locking never preserves a false blocker.
+
 The published path is locked for unchanged scope. A genuinely new P0–P2 that passes the re-review admission rule receives the next unused `B` ID. Optional cleanup never enters this path.
 
 ## Validation-limited 4.0

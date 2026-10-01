@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readdir, stat, writeFile } from "node:fs/promises";
+import { access, mkdtemp, readFile, readdir, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -25,6 +25,34 @@ async function isFile(path) {
   return (await stat(path)).isFile();
 }
 
+async function markdownFiles(directory) {
+  const output = [];
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) output.push(...(await markdownFiles(path)));
+    else if (entry.name.endsWith(".md")) output.push(path);
+  }
+  return output;
+}
+
+async function brokenRelativeMarkdownLinks(directory) {
+  const failures = [];
+  for (const file of await markdownFiles(directory)) {
+    const source = await readFile(file, "utf8");
+    for (const match of source.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
+      const raw = match[1].trim().split(/\s+['\"]/)[0];
+      if (!raw || raw.startsWith("#") || /^[a-z][a-z0-9+.-]*:/i.test(raw)) continue;
+      const path = resolve(dirname(file), decodeURIComponent(raw.split("#")[0]));
+      try {
+        await access(path);
+      } catch {
+        failures.push(`${file.slice(directory.length + 1)} -> ${raw}`);
+      }
+    }
+  }
+  return failures;
+}
+
 test("requires an explicit agent", async () => {
   const home = await temporaryHome();
   const result = run([], home);
@@ -43,7 +71,10 @@ test("installs Codex globally in the Agent Skills standard directory", async () 
   const home = await temporaryHome();
   const result = run(["--agent", "codex"], home);
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(await isFile(join(home, ".agents", "skills", "android-ultrareview", "SKILL.md")), true);
+  const destination = join(home, ".agents", "skills", "android-ultrareview");
+  assert.equal(await isFile(join(destination, "SKILL.md")), true);
+  assert.equal(await isFile(join(destination, "LICENSE")), true);
+  assert.deepEqual(await brokenRelativeMarkdownLinks(destination), []);
 });
 
 test("installs Claude Code globally", async () => {
@@ -69,6 +100,18 @@ test("all installs one shared Codex/Cursor copy plus one Claude copy", async () 
   assert.equal(await isFile(join(home, ".agents", "skills", "android-ultrareview", "SKILL.md")), true);
   assert.equal(await isFile(join(home, ".claude", "skills", "android-ultrareview", "SKILL.md")), true);
   await assert.rejects(stat(join(home, ".cursor", "skills", "android-ultrareview")), { code: "ENOENT" });
+});
+
+test("all preflights every destination before writing", async () => {
+  const home = await temporaryHome();
+  assert.equal(run(["--agent", "claude"], home).status, 0);
+
+  const result = run(["--agent", "all"], home);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /already exists/);
+  await assert.rejects(stat(join(home, ".agents", "skills", "android-ultrareview")), {
+    code: "ENOENT",
+  });
 });
 
 test("refuses overwrite by default and preserves a backup with --force", async () => {

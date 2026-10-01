@@ -13,7 +13,7 @@ Small documentation corrections and narrowly scoped bug fixes may go directly to
 
 ## Development setup
 
-Requirements: Node.js 18+, Python 3, and Git.
+Requirements: Node.js 22+, Python 3, and Git.
 
 ```bash
 npm test
