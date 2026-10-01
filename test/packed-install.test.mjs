@@ -7,10 +7,21 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
-const NPM = process.platform === "win32" ? "npm.cmd" : "npm";
+const NPM_CLI = process.env.npm_execpath;
 
 function runNpm(args, cwd) {
-  return spawnSync(NPM, args, { cwd, encoding: "utf8" });
+  if (NPM_CLI) {
+    return spawnSync(process.execPath, [NPM_CLI, ...args], {
+      cwd,
+      encoding: "utf8",
+    });
+  }
+
+  return spawnSync("npm", args, {
+    cwd,
+    encoding: "utf8",
+    shell: process.platform === "win32",
+  });
 }
 
 async function markdownFiles(directory) {
