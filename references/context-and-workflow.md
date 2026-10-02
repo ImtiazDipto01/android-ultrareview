@@ -116,6 +116,14 @@ Prefer repository-documented commands and CI-equivalent tasks. Determine the aff
 
 CI substitutes for local build/tests only when logs identify the qualifying SHA, tasks, modules/variants, relevant environment and tests, and successful underlying commands. A green wrapper job is not enough. CI substitutes for runtime evidence only when it actually performs equivalent validation.
 
+When emulator validation is relevant, safe under the execution trust gate, and not already covered by equivalent qualifying evidence:
+
+1. Run `adb devices -l` to find running emulators. If one is suitable and safe to use, install the exact-target build there; do not assume a running emulator is review-owned or interrupt another session.
+2. If no suitable emulator is running, run `emulator -list-avds`, choose an installed AVD compatible with the app and affected behavior, boot it, and wait for Android to finish booting. An empty `adb devices` list means no device is currently connected, not that no AVD is installed.
+3. Install the APK built from the verified exact head or qualifying merge result, run the affected flow or relevant instrumented checks, and record the AVD/API, build variant, target SHA, actions, and outcome. Track and clean up only emulator state created by the review under [target-acquisition.md](target-acquisition.md).
+
+This procedure concerns emulators only; never install onto a connected physical device merely because it appears in `adb devices`. If no suitable emulator can be used safely, record the specific reason and the missing runtime evidence.
+
 Use these evidence trust tiers when deciding whether a result satisfies a gate:
 
 1. **Direct/authoritative:** reviewer-executed evidence on the exact target, or authoritative CI whose provenance and underlying work are visible.
