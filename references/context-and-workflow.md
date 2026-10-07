@@ -97,7 +97,7 @@ Checkout/materialization, Gradle configuration, wrapper execution, dependency re
 1. identify fork or contributor trust and inspect changes to wrappers, build logic, settings, repositories, dependencies, plugins, scripts, CI, code generation, test harnesses, and signing/release configuration;
 2. identify exposed credentials, signing identities, keystores, `local.properties`, service accounts, production backends, remote build caches/scans, devices, and network access;
 3. prefer static inspection and trusted remote CI for suspicious or untrusted changes; and
-4. run locally only when authorized and isolated from secrets, production data/services, signing material, shared device data, and unnecessary network access.
+4. run locally only when authorized and isolated from unauthorized secrets, production data/services, signing material, shared device data, and unnecessary network access; the conditional Stage/debug configuration rule is in [target-acquisition.md](target-acquisition.md).
 
 If safety cannot be established, state the limitation instead of executing the code. Do not weaken dependency verification, trust a new repository, publish a scan, accept an unverified wrapper download, or insert secrets solely to produce review evidence.
 
@@ -109,7 +109,7 @@ Prefer repository-documented commands and CI-equivalent tasks. Determine the aff
 2. compiler, static analysis, lint, detekt/custom-rule, dependency verification, or architecture checks used by the repository;
 3. focused local JVM tests for changed behavior, including deterministic coroutine/Flow tests where applicable;
 4. relevant module, integration, Robolectric, database migration, contract, screenshot, Compose/View UI, or instrumented tests;
-5. a compile/assemble/bundle or repository-equivalent build of the exact affected variant, including release/minified/consumer-rule validation when that is the changed risk and can be done without signing secrets;
+5. a compile/assemble/bundle or repository-equivalent build of the exact affected variant, including release/minified/consumer-rule validation only when that is the changed risk and explicit release authorization has been given;
 6. emulator/device or existing UI/accessibility evidence when material UI, interaction, lifecycle, process-death, permission, deep-link, background-execution, form-factor, or platform behavior requires it;
 7. macrobenchmark, baseline-profile, startup, size, jank, ANR, memory, or build-performance comparison only when the PR changes or claims that risk, using comparable release-like baselines; and
 8. authoritative CI logs for the same head or current merge result.
@@ -118,7 +118,7 @@ CI substitutes for local build/tests only when logs identify the qualifying SHA,
 
 When emulator validation is relevant, safe under the execution trust gate, and not already covered by equivalent qualifying evidence:
 
-1. Run `adb devices -l` to find running emulators. If one is suitable and safe to use, install the exact-target build there; do not assume a running emulator is review-owned or interrupt another session.
+1. Run `adb devices -l` to find running emulators. If one is suitable and safe to use, install the exact-target build there; do not assume a running emulator is review-owned or interrupt another session. Before changing an existing emulator, follow the scoped-authorization procedure in [target-acquisition.md](target-acquisition.md).
 2. If no suitable emulator is running, run `emulator -list-avds`, choose an installed AVD compatible with the app and affected behavior, boot it, and wait for Android to finish booting. An empty `adb devices` list means no device is currently connected, not that no AVD is installed.
 3. Install the APK built from the verified exact head or qualifying merge result, run the affected flow or relevant instrumented checks, and record the AVD/API, build variant, target SHA, actions, and outcome. Track and clean up only emulator state created by the review under [target-acquisition.md](target-acquisition.md).
 
